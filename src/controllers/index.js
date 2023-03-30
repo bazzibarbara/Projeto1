@@ -1,13 +1,5 @@
 const express= require ('express');
+const router = express.Router();
+const Musica = require('../models/Musica');
 
-const app = express();
-app.use(express.json());
-
-app.use(express.urlencoded({
-    extended:true
-}));
-
-const musicaRouter =  require('../src/domains/musicas/controllers/index');
-app.use('api/musica', musicaRouter);
-
-module.exports = app;
+module.exports = router;
