@@ -27,6 +27,17 @@ router.post('/all', (req, res) => {
     res.status(200).json({ nome, artista, genero, quantidadeDownloads });
 });
 
+router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
+    const { nome, quantidadeDownloads } = req.params;
+    const musica = Musica.find(musica => musica.nome === nome);
+
+    if(!musica) return res.status(404).json();
+
+    musica.quantidadeDownloads = quantidadeDownloads;
+
+    res.status(200).json(musica);
+});
+
 router.delete('/all/:name', (req, res) => {
     const { name } = req.params;
     const musica_index = Musica.findIndex(musica => musica.name == name);
