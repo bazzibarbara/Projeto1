@@ -6,23 +6,25 @@ router.get('/all', (req,res) => {
     res.status(200).send(Musica);
 });
 
-// retorna dados de uma musica pelo name
-router.get('/all/:name', (req,res) =>{  //obrigatoriamente precisa passar o parametro
-    const { name } = req.params;
-    const musica = Musica.find(musica => musica.nome === name);
+// retorna dados de uma musica pelo nome
+router.get('/all/:nome', (req,res) =>{  //obrigatoriamente precisa passar o parametro
+    const { nome } = req.params;
+    const musica = Musica.find(musica => musica.nome === nome);
 
     if(!musica) return res.status(404).json();
 
-    res.json(musica);
+    res.status(200).json(musica);
 });
 
 router.post('/all', (req, res) => {
-    const { name, artista, genero, quantidadeDownloads } = req.body;
-    
-    const  musica = Musica.find(musica => musica.name == name);
+    const { nome, artista, genero, quantidadeDownloads } = req.body;
+    const musica = Musica.find(musica => musica.nome === nome);
+
     if(musica) return res.status(401).json();
 
-    res.json({name, artista, genero, quantidadeDownloads});
+    Musica.push(req.body);
+
+    res.status(200).json({ nome, artista, genero, quantidadeDownloads });
 });
 
 router.delete('/all/:name', (req, res) => {
