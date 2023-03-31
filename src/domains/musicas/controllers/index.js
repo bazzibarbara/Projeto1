@@ -25,4 +25,13 @@ router.post('/all', (req, res) => {
     res.json({name, artista, genero, quantidadeDownloads});
 });
 
+router.delete('/all/:name', (req, res) => {
+    const { name } = req.params;
+    const musica_index = Musica.findIndex(musica => musica.name == name);
+
+    musica ? res.status(200).json() : res.status(401).json();
+
+    musica.splice(musica_index, 1);
+})
+
 module.exports = router;
