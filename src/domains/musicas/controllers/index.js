@@ -13,7 +13,7 @@ router.get('/all/:nome', (req,res) =>{  //obrigatoriamente precisa passar o para
 
     if(!musica) return res.status(404).json();
 
-    res.json(musica);
+    res.status(200).json(musica);
 });
 
 router.post('/all', (req, res) => {
@@ -24,7 +24,7 @@ router.post('/all', (req, res) => {
 
     Musica.push(req.body);
 
-    res.json({ nome, artista, genero, quantidadeDownloads });
+    res.status(200).json({ nome, artista, genero, quantidadeDownloads });
 });
 
 module.exports = router;
