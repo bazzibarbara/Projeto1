@@ -26,7 +26,7 @@ const listaDeMusicas = [
     {
         nome: 'Enemy',
         artista: 'Imagine Dragons x J.I.D',
-        genero: 'Pop Rock',
+        genero: 'Electropop',
         quantidadeDownloads: 18000,
     }
 ];
