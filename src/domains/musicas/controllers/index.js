@@ -1,13 +1,14 @@
 const express = require ('express');
 const router = express.Router();
-let Musica = require('../models/Musica');
+const Musica = require('../models/Musica');
+const MusicaService = require('../services/MusicaService');
 
 router.get('/all', (req,res) => {
     res.status(200).send(Musica);
 });
 
 // retorna dados de uma musica pelo nome
-router.get('/all/:nome', (req,res) =>{  //obrigatoriamente precisa passar o parametro
+router.get('/all/:nome', async (req,res) =>{  //obrigatoriamente precisa passar o parametro
     const { nome } = req.params;
     const musica = Musica.find(musica => musica.nome === nome);
 
@@ -41,16 +42,15 @@ router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
 });
 
 // deleta uma musica pelo nome
-router.delete('/delete/:nome', (req, res) => {
+router.delete('/delete/:nome', async (req, res) => {
     const { nome } = req.params;
-    const musica = Musica.find(musica => musica.nome == nome);
-
-    if(!musica) return res.status(401).json();
-
-    const musica_index = Musica.indexOf(musica);  //Obtendo o index da musica a ser deletada
-    Musica.splice(musica_index, 1); // Deleta 1 elemento a partir do index obtido, ou seja, o proprio elemento
-
-    res.status(200).json(Musica);
-})
+    try{
+        await MusicaService.deletaMusica(nome);
+        res.status(200).send('Musica deletada com sucesso');
+    }
+    catch{
+        res.status(404).send('Musica nao encontrada');
+    }
+});
 
 module.exports = router;
