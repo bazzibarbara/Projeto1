@@ -16,6 +16,7 @@ router.get('/all/:nome', (req,res) =>{  //obrigatoriamente precisa passar o para
     res.status(200).json(musica);
 });
 
+// adiciona uma musica na lista
 router.post('/add', (req, res) => {
     const { nome, artista, genero, quantidadeDownloads } = req.body;
     const musica = Musica.find(musica => musica.nome === nome);
@@ -27,6 +28,7 @@ router.post('/add', (req, res) => {
     res.status(200).json({ nome, artista, genero, quantidadeDownloads });
 });
 
+// edita a quantidade de downloads de uma musica pelo nome
 router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
     const { nome, quantidadeDownloads } = req.params;
     const musica = Musica.find(musica => musica.nome === nome);
@@ -38,6 +40,7 @@ router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
     res.status(200).json(musica);
 });
 
+// deleta uma musica pelo nome
 router.delete('/delete/:nome', (req, res) => {
     const { nome } = req.params;
     const musica = Musica.find(musica => musica.nome == nome);
