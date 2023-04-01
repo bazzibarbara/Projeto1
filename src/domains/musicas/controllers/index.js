@@ -1,6 +1,6 @@
-const express= require ('express');
+const express = require ('express');
 const router = express.Router();
-const Musica = require('../models/Musica');
+let Musica = require('../models/Musica');
 
 router.get('/all', (req,res) => {
     res.status(200).send(Musica);
@@ -16,7 +16,7 @@ router.get('/all/:nome', (req,res) =>{  //obrigatoriamente precisa passar o para
     res.status(200).json(musica);
 });
 
-router.post('/all', (req, res) => {
+router.post('/add', (req, res) => {
     const { nome, artista, genero, quantidadeDownloads } = req.body;
     const musica = Musica.find(musica => musica.nome === nome);
 
@@ -38,16 +38,15 @@ router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
     res.status(200).json(musica);
 });
 
-router.delete('/all/:nome', (req, res) => {
+router.delete('/delete/:nome', (req, res) => {
     const { nome } = req.params;
-    const musica_index = Musica.findIndex(musica => musica.nome == nome);
-    console.log(musica_index);
+    const musica = Musica.find(musica => musica.nome === nome);
 
-    if(!musica_index) return res.status(401).json();
+    if(!musica) return res.status(404).json();
 
-    Musica.splice(musica_index, 1);
+    Musica = Musica.filter(musica => musica.nome != nome);
 
-    res.status(200).json();
-})
+    res.json(Musica);
+});
 
 module.exports = router;
