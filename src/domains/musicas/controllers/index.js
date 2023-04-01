@@ -38,16 +38,16 @@ router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
     res.status(200).json(musica);
 });
 
-router.delete('/all/:nome', (req, res) => {
+router.delete('/delete/:nome', (req, res) => {
     const { nome } = req.params;
-    const musica_index = Musica.findIndex(musica => musica.nome == nome);
-    console.log(musica_index);
+    const musica = Musica.find(musica => musica.nome == nome);
 
-    if(!musica_index) return res.status(401).json();
+    if(!musica) return res.status(401).json();
 
-    Musica.splice(musica_index, 1);
+    const musica_index = Musica.indexOf(musica);  //Obtendo o index da musica a ser deletada
+    Musica.splice(musica_index, 1); // Deleta 1 elemento a partir do index obtido, ou seja, o proprio elemento
 
-    res.status(200).json();
+    res.status(200).json(Musica);
 })
 
 module.exports = router;
