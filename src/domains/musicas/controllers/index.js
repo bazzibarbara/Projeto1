@@ -1,6 +1,6 @@
-const express= require ('express');
+const express = require ('express');
 const router = express.Router();
-const Musica = require('../models/Musica');
+let Musica = require('../models/Musica');
 
 router.get('/all', (req,res) => {
     res.status(200).send(Musica);
@@ -16,7 +16,7 @@ router.get('/all/:nome', (req,res) =>{  //obrigatoriamente precisa passar o para
     res.status(200).json(musica);
 });
 
-router.post('/all', (req, res) => {
+router.post('/add', (req, res) => {
     const { nome, artista, genero, quantidadeDownloads } = req.body;
     const musica = Musica.find(musica => musica.nome === nome);
 
