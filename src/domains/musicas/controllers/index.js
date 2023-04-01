@@ -38,13 +38,16 @@ router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
     res.status(200).json(musica);
 });
 
-router.delete('/all/:name', (req, res) => {
-    const { name } = req.params;
-    const musica_index = Musica.findIndex(musica => musica.name == name);
+router.delete('/all/:nome', (req, res) => {
+    const { nome } = req.params;
+    const musica_index = Musica.findIndex(musica => musica.nome == nome);
+    console.log(musica_index);
 
-    musica ? res.status(200).json() : res.status(401).json();
+    if(!musica_index) return res.status(401).json();
 
-    musica.splice(musica_index, 1);
+    Musica.splice(musica_index, 1);
+
+    res.status(200).json();
 })
 
 module.exports = router;
