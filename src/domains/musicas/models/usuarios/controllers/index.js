@@ -1,7 +1,8 @@
 const router =  require('express').Router();
 const Usuario = require('../models/Usuario');
+const UsuarioService = require('../service/UsuarioService');
 
-router.post('/', async(req/res) =>{
+router.post('/', async(req,res) =>{
     const body = req.body;
     try {
         await UsuarioService.criacao =await Usuario.create(body);
