@@ -10,23 +10,25 @@ router.get('/all', (req,res) => {
 // retorna dados de uma musica pelo nome
 router.get('/all/:nome', async (req,res) =>{  //obrigatoriamente precisa passar o parametro
     const { nome } = req.params;
-    const musica = Musica.find(musica => musica.nome === nome);
+    
+    try{
+        let musica = await MusicaService.getMusicaByNome(nome);
+        res.status(200).json(musica);
+    }catch{
+        res.status(404).json();
+    }
 
-    if(!musica) return res.status(404).json();
-
-    res.status(200).json(musica);
 });
 
 // adiciona uma musica na lista
 router.post('/add', (req, res) => {
-    const { nome, artista, genero, quantidadeDownloads } = req.body;
-    const musica = Musica.find(musica => musica.nome === nome);
 
-    if(musica) return res.status(401).json();
-
-    Musica.push(req.body);
-
-    res.status(200).json({ nome, artista, genero, quantidadeDownloads });
+    try{
+        let musica_adicionada = await MusicaService.adicionarMusica(req.body);
+        res.status(200).json(musica_adicionada);
+    }catch{
+        res.status(401).json();
+    }
 });
 
 // edita a quantidade de downloads de uma musica pelo nome
@@ -45,7 +47,7 @@ router.put('/edit/:nome/:quantidadeDownloads', (req, res) => {
 router.delete('/delete/:nome', async (req, res) => {
     const { nome } = req.params;
     try{
-        await MusicaService.deletaMusica(nome);
+        await MusicaService.deletarMusica(nome);
         res.status(200).send('Musica deletada com sucesso');
     }
     catch{
