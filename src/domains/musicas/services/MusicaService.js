@@ -30,8 +30,6 @@ class MusicaService{
             throw new Error('Musica sem dados nao pode ser adicionada.');
             
         Musica.push(req_body);
-        const { nome, artista, genero, quantidadeDownloads } = req_body;
-        return { nome, artista, genero, quantidadeDownloads };
     }
 }
 

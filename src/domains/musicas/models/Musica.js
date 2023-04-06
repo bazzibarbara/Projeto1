@@ -26,7 +26,7 @@ const Musica = sequelize.define('Musica', {
     }
 });
 
-Usuario.sync({alter: true, force: false})
+Musica.sync({alter: true, force: false})
 .then(() => {
     console.log("Tabela de Musica foi (re)criada");
 })

@@ -1,7 +1,7 @@
 const sequelize = require('../../../../database/index');
 const {Datatypes} = require('sequelize');
 
-const Artistas = sequelize.define('Artistas', {
+const Artista = sequelize.define('Artista', {
     id:{
         type:Datatypes.INTEGER,
         allowNull: false,
@@ -22,7 +22,7 @@ const Artistas = sequelize.define('Artistas', {
     }
 });
 
-Usuario.sync({alter: true, force: false})
+Artista.sync({alter: true, force: false})
 .then(() => {
     console.log("Tabela de Artistas foi (re)criada");
 })
