@@ -17,17 +17,15 @@ router.get('/all/:nome', async (req,res) =>{  //obrigatoriamente precisa passar 
     }catch{
         res.status(404).json();
     }
-
 });
 
 // adiciona uma musica na lista
-router.post('/add', (req, res) => {
-
+router.post('/add', async (req, res) => {
     try{
-        let musica_adicionada = await MusicaService.adicionarMusica(req.body);
-        res.status(200).json(musica_adicionada);
+        await MusicaService.adicionarMusica(req.body);
+        res.status(200).send('Musica adicionada com sucesso');
     }catch{
-        res.status(401).json();
+        res.status(404).send('Musica nao encontrada');
     }
 });
 

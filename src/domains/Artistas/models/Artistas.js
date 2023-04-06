@@ -1,4 +1,4 @@
-const sequelize = require('../../../../../../database/index');
+const sequelize = require('../../../../database/index');
 const {Datatypes} = require('sequelize');
 
 const Artistas = sequelize.define('Artistas', {
