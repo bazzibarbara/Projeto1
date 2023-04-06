@@ -1,4 +1,4 @@
-const Artistas = require('../models/Artistas');
+const Artistas = require('../models/Artista');
 
 class ArtistasService{
     async criacao(body){
