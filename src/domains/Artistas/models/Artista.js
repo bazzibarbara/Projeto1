@@ -1,31 +1,32 @@
-const sequelize = require('../../../../database/index');
-const {Datatypes} = require('sequelize');
+const database = require('../../../../database/index');
+const Sequelize = require('sequelize');
 
-const Artista = sequelize.define('Artista', {
+const Artista = database.define('Artista', {
     id:{
-        type:Datatypes.INTEGER,
+        type:Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncerement: true,
         allowNull: false,
-
     },
     nome:{
-        type: Datatypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
 
     },
     nacionalidade :{
-        type: Datatypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
     },
     foto: {
-        type: Datatypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
     }
 });
 
 Artista.sync({alter: true, force: false})
-.then(() => {
-    console.log("Tabela de Artistas foi (re)criada");
-})
-.catch((err) => console.log(err));
+    .then(() => {
+        console.log('Tabela de Artistas foi (re)criada');
+    })
+    .catch((err) => console.log(err));
 
-module.exports = Artistas;
+module.exports = Artista;

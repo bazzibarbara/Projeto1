@@ -13,10 +13,6 @@ const Musica = database.define('Musica', {
         allowNull: false,
 
     },
-    nacionalidade :{
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
     titulo: {
         type: Sequelize.STRING,
         allowNull: false,
