@@ -19,12 +19,13 @@ router.post('/create', async(req,res) => {
         })
         console.log(criarUsuario);
         await Usuario.create(body);
-<<<<<<< HEAD:src/domains/usuarios/controllers/UsuarioController.js
     return res.status(201).json('Usuario criado com sucesso');
-} catch (error) {
+}
+ catch (error) {
     return res.status(400);
 }
-)}
+})
+
 
 
 //modulo read todos os usuarios (R DO CRUD)
