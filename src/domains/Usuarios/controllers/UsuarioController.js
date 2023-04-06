@@ -1,6 +1,6 @@
 const router =  require('express').Router();
 const Usuario = require('../models/Usuario');
-const UsuarioService = require('../service/UsuarioService');
+//const UsuarioService = require('../service/UsuarioService');
 
 router.post('/', async(req,res) =>{
     const body = req.body;
@@ -10,7 +10,7 @@ router.post('/', async(req,res) =>{
     } catch (error) {
         return res.status(400);
         
-    };
-})
+    }
+});
 
 module.exports = router;

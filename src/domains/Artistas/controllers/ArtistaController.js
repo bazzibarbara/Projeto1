@@ -1,6 +1,6 @@
 const router =  require('express').Router();
 const Artista = require('../models/Artista');
-const ArtistaService = require('../service/ArtistaService');
+//const ArtistaService = require('../service/ArtistaService');
 
 router.post('/', async(req,res) =>{
     const body = req.body;
@@ -10,7 +10,7 @@ router.post('/', async(req,res) =>{
     } catch (error) {
         return res.status(400);
         
-    };
-})
+    }
+});
 
 module.exports = router;

@@ -1,29 +1,31 @@
 const database = require('../../../../database/index');
-const Sequelize = require('sequelize');
+const {DataTypes} = require('sequelize');
 
 const Musica = database.define('Musica', {
-    id:{
-        type:Sequelize.INTEGER,
+    id: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
+        allowNull: false
     },
-    foto:{
-        type: Sequelize.STRING,
-        allowNull: false,
 
+    foto: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
+
     titulo: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: false
     },
+
     categoria: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: false
     }
 });
 
-Musica.sync({alter: true, force: false})
+Musica.sync({alter: false, force: false})
     .then(() => {
         console.log('Tabela de Musica foi (re)criada');
     })
