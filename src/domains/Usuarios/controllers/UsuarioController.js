@@ -1,73 +1,64 @@
 const router =  require('express').Router();
-const Usuario = require('../../Musica/models/usuarios/models/Usuario');
-const Usuario = require('../models/Usuario');
-const Usuario = require('../models/Usuario');
-const Usuario = require('../models/Usuario');
-//const UsuarioService = require('../service/UsuarioService');
+const UsuarioService = require('../service/UsuarioService');
 
 
 //cria usuario(C do CRUD)
-router.post('/create', async(req,res) => {
+router.post('/all/usuario/add', async(req,res) => {
+    const body = req.body;
+
     try {
-        const resultado = await database.sync();
-        console.log(resultado);
-        const criarUsuario = await Usuario.create({
-            nome: 
-            email: 
-            senha:
-            cargo:
-        })
-        console.log(criarUsuario);
-        await Usuario.create(body);
-    return res.status(201).json('Usuario criado com sucesso');
-}
- catch (error) {
-    return res.status(400);
-}
-})
+        await UsuarioService.adicionarUsuario(body);
+        return res.status(201).json('Usuario criado com sucesso');
+    } catch {
+        return res.status(400);
+    }
+});
+
 //modulo read todos os usuarios (R DO CRUD)
-router.get('/todos', (req,res) => {
-const lerUsuario = await Usuario.findAll();
-console.log(lerUsuario);
-res.status(200);
-if(!Usuario){
-    res.status(400).json({message: 'Usuario não existe'});
-}
-})
+router.get('/all/usuario', async (req,res) => {
+    try{
+        const usuarios = await UsuarioService.obterUsuarios();
+        res.status(200).send(usuarios);
+    }catch{
+        res.status(400).json('Nao foi possivel acessar a tabela de usuarios.');
+    }
+});
+
 //modulo read pelo id do usuario 
-router.get('/:id', (req,res) => {
-const lerUsuarioId = await Usuario.findByPk();
-console.log(lerUsuarioId);
-res.status(200);
-if(!Usuario){
-    res.status(400).json({message: 'Id não encontrado'});
-}
-})
+router.get('/all/usuario/:id', async (req,res) => {
+    const { id } = req.params;
+    try{
+        const lerUsuarioId = await UsuarioService.findByPk(id);
+        res.status(200).json(lerUsuarioId);
+    }catch{
+        res.status(400).json(`Nao foi encontrado usuario com o id ${id}.`);
+    }
+});
 
 //atualiza um usuario (U do crud)
-router.put('edit/:nomenovo/', (req,res) =>{
-    const {nome} = req.params;
-if(!Usuario){
-    res.status(400).json({message: 'Usuario não existe'});}
-
-    const Usuario = Usuario.find(Usuario => Usuario.nome === nomenovo);
-    Usuario.nome = nomenovo;
-   await Usuario.save();
-    res.status(200).json('nome alterado com sucesso');
-})
+router.put('/edit/usuario/:nome/:novoNome', async (req,res) =>{
+    const { nome, novoNome } = req.params;
+    
+    try{
+        await UsuarioService.editarNome(nome, novoNome);
+        res.status(200).send(`Nome do usuario ${nome} editado com sucesso.`);
+    }catch{
+        res.status(400).json();
+    }
+});
 
 
 //deleta um usuario pelo nome (D do crud)
-router.delete('/delete/:nome', async(req,res) =>{
+router.delete('usuario/delete', async(req,res) =>{
     const { nome } = req.params;
-try{
-    await UsuarioService.deletarUsuario(nome);
-    res.status(200).json({message: 'Usuario deletado com sucesso'});
-}
-catch{
-    res.status(404).send('Usuario nao encontrado');
-
-}});
+    try{
+        await UsuarioService.deletarUsuario(nome);
+        res.status(200).json({message: 'Usuario deletado com sucesso'});
+    }
+    catch{
+        res.status(404).send('Usuario nao encontrado');
+    }
+});
 
 
 module.exports = router;
