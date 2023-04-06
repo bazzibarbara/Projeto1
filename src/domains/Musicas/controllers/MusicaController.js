@@ -17,7 +17,7 @@ router.get('/all/:nome', async (req,res) =>{  //obrigatoriamente precisa passar 
     const { nome } = req.params;
     
     try{
-        const musica = await MusicaService.getMusicaByNome(nome);
+        const musica = await MusicaService.obterMusicaPorNome(nome);
         res.status(200).json(musica);
     }catch{
         res.status(400).json(`Nao foi encontrada musica com o nome ${nome}.`);
@@ -30,7 +30,7 @@ router.post('/add', async (req, res) => {
         await MusicaService.adicionarMusica(req.body);
         res.status(201).json('Musica adicionada com sucesso.');
     }catch{
-        res.status(400).send('Nao foi possvel adicionar a musica.');
+        res.status(400).send('Nao foi possivel adicionar a musica.');
     }
 });
 

@@ -14,6 +14,7 @@ class MusicaService{
         Musica.destroy({ where: { nome: `${nome}` } });
     }
 
+    
     async obterMusicas(){
         return await Musica.findAll();
     }
