@@ -21,7 +21,7 @@ router.get('/all/:nome', async (req,res) =>{  //obrigatoriamente precisa passar 
 });
 
 // adiciona uma musica na lista
-router.post('/add', (req, res) => {
+router.post('/add', async (req, res) => {
 
     try{
         let musica_adicionada = await MusicaService.adicionarMusica(req.body);
