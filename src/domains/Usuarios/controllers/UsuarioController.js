@@ -25,9 +25,6 @@ router.post('/create', async(req,res) => {
     return res.status(400);
 }
 })
-
-
-
 //modulo read todos os usuarios (R DO CRUD)
 router.get('/todos', (req,res) => {
 const lerUsuario = await Usuario.findAll();
