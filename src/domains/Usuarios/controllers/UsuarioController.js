@@ -3,7 +3,7 @@ const Usuario = require('../../Musica/models/usuarios/models/Usuario');
 const Usuario = require('../models/Usuario');
 const Usuario = require('../models/Usuario');
 const Usuario = require('../models/Usuario');
-const UsuarioService = require('../service/UsuarioService');
+//const UsuarioService = require('../service/UsuarioService');
 
 
 //cria usuario(C do CRUD)
@@ -19,6 +19,7 @@ router.post('/create', async(req,res) => {
         })
         console.log(criarUsuario);
         await Usuario.create(body);
+<<<<<<< HEAD:src/domains/usuarios/controllers/UsuarioController.js
     return res.status(201).json('Usuario criado com sucesso');
 } catch (error) {
     return res.status(400);
