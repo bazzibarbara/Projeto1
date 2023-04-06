@@ -1,5 +1,5 @@
 const router =  require('express').Router();
-const ArtistaService = require('../service/ArtistaService');
+const ArtistaService = require('../services/ArtistaService');
 
 router.post('/artistas', async(req,res) =>{
     const body = req.body;

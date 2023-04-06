@@ -25,7 +25,7 @@ const Usuario = database.define('Usuario', {
     }
 });
 
-Usuario.sync({alter: false, force: false})
+Usuario.sync({alter: true, force: false})
     .then(() => {
         console.log('Tabela de Usuarios foi (re)criada');
     })
