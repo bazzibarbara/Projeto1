@@ -5,7 +5,7 @@ const UsuarioService = require('../service/UsuarioService');
 router.post('/', async(req,res) =>{
     const body = req.body;
     try {
-        await UsuarioService.criacao =await Usuario.create(body);
+        await UsuarioService.criacao = Usuario.create(body);
         return res.status(201).json('Usuario criado com sucesso');
     } catch (error) {
         return res.status(400);
