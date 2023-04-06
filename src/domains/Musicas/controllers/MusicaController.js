@@ -1,6 +1,5 @@
 const express = require ('express');
 const router = express.Router();
-const Musica = require('../models/Musica');
 const MusicaService = require('../services/MusicaService');
 
 router.get('/all', async (res) => {

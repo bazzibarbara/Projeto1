@@ -1,7 +1,7 @@
 const Artistas = require('../models/Artista');
 
 class ArtistasService{
-    async criacao(body){
+    async adicionarArtista(body){
         await Artistas.create(body);
     } 
 }

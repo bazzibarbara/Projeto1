@@ -11,7 +11,7 @@ class MusicaService{
             throw new Error('Musica nao encontrada.');
         }
 
-        Musica.destroy({ where: { nome: `${nome}` } })
+        Musica.destroy({ where: { nome: `${nome}` } });
     }
 
     async obterMusicas(){
@@ -44,7 +44,7 @@ class MusicaService{
         const musica = await Musica.findOne({ where: { nome: `${nome}`} });
 
         if (!musica){
-            throw new Error('Musica nao encontrada.')
+            throw new Error('Musica nao encontrada.');
         }
 
         musica.quantidadeDownloads = quant_downloads;
