@@ -11,27 +11,37 @@ class UsuarioService{
         await Usuario.create(body);
     }
 
+    async obterMusicaPorId(id){
+        const usuario = await Usuario.findByPk(id);
+
+        if (!usuario){
+            throw new Error('Usuario nao encontrada.');
+        }
+            
+        return usuario;
+    }
+
     /**@brief Atualiza nome de  um usuario.*/
-    async editarNome(nome, novoNome){
-        const usuario = await Usuario.findOne({ where: { nome: `${nome}`} });
+    async editarNome(id, novoNome){
+        const usuario = await Usuario.findByPk(id);
 
         if (!usuario){
             throw new Error('Usuario nao encontrado.');
         }
 
-        usuario.quantidadeDownloads = novoNome;
+        usuario.nome = novoNome;
         await usuario.save();
     }
     
     /**@brief Deleta um usuario.*/
-    async deletarUsuario(nome){
-        const usuario = await Usuario.findOne({ where: { nome: `${nome}`} });
+    async deletarUsuario(id){
+        const usuario = await Usuario.findByPk(id);
 
         if (!usuario){
             throw new Error('Usuario nao encontrado.');
         }
 
-        Usuario.destroy({ where: { nome: `${nome}` } });
+        Usuario.destroy({ where: { id: `${id}` } });
     }
 }
 
