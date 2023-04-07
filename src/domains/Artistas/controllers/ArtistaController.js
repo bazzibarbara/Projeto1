@@ -1,16 +1,16 @@
-const router =  require('express').Router();
+const router = require('express').Router();
 const ArtistaService = require('../services/ArtistaService');
 
-router.get('/', async(req,res) =>{
+router.get('/all', async(req,res) =>{
     try {
-        const musicas = await ArtistaService.obterMusicas();
-        res.status(200).send(musicas);
+        const artistas = await ArtistaService.obterArtistas();
+        res.status(200).send(artistas);
     } catch {
         res.status(400);
     }
 });
 
-router.get('/:nome', async (req, res) => {
+router.get('/all/:nome', async (req, res) => {
     const { nome } = req.params;
 
     try{
@@ -29,6 +29,18 @@ router.post('/add', async(req,res) =>{
     } catch {
         return res.status(400);
     }
+});
+
+router.put('/edit/:nome/:novafoto', async (req, res) => {
+    const { nome, novafoto } = req.params;
+    
+    try{
+        await ArtistaService.editarFoto(nome, novafoto);
+        res.status(200).send(`Foto do artista ${nome} editado com sucesso.`);
+    }catch{
+        res.status(400).json();
+    }
+
 });
 
 router.delete('/delete/:nome', async (req, res) => {

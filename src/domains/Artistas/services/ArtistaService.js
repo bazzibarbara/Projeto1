@@ -24,6 +24,17 @@ class ArtistasService{
         return artista;
     }
 
+    async editarFoto(nome, novafoto){
+        const artista = await Artista.findOne({ where: { nome: `${nome}`} });
+
+        if (!artista){
+            throw new Error('Artista nao encontrado.');
+        }
+
+        artista.foto = novafoto;
+        await artista.save();
+    }
+
     /**@brief Deleta uma artista filtrando pelo nome. */
     async deletarArtista(nome){
 
