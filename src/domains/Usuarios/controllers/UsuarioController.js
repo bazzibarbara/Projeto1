@@ -28,7 +28,7 @@ router.get('/all', async (req,res) => {
 router.get('/all/:id', async (req,res) => {
     const { id } = req.params;
     try{
-        const lerUsuarioId = await UsuarioService.obterMusicaPorId(id);
+        const lerUsuarioId = await UsuarioService.findByPk(id);
         res.status(200).json(lerUsuarioId);
     }catch{
         res.status(400).json(`Nao foi encontrado usuario com o id ${id}.`);
@@ -36,12 +36,12 @@ router.get('/all/:id', async (req,res) => {
 });
 
 //atualiza um usuario (U do crud)
-router.put('/edit/:id/:novoNome', async (req,res) =>{
-    const { id, novoNome } = req.params;
+router.put('/edit/:nome/:novoNome', async (req,res) =>{
+    const { nome, novoNome } = req.params;
     
     try{
-        await UsuarioService.editarNome(id, novoNome);
-        res.status(200).send(`Nome do usuario ${id} editado com sucesso.`);
+        await UsuarioService.editarNome(nome, novoNome);
+        res.status(200).send(`Nome do usuario ${nome} editado com sucesso.`);
     }catch{
         res.status(400).json();
     }
@@ -49,10 +49,10 @@ router.put('/edit/:id/:novoNome', async (req,res) =>{
 
 
 //deleta um usuario pelo nome (D do crud)
-router.delete('/delete/:id', async(req,res) =>{
-    const { id } = req.params;
+router.delete('/delete', async(req,res) =>{
+    const { nome } = req.params;
     try{
-        await UsuarioService.deletarUsuario(id);
+        await UsuarioService.deletarUsuario(nome);
         res.status(200).json({message: 'Usuario deletado com sucesso'});
     }
     catch{
