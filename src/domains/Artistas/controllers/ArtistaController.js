@@ -1,7 +1,7 @@
 const router =  require('express').Router();
 const ArtistaService = require('../services/ArtistaService');
 
-router.get('/all', async(req,res) =>{
+router.get('/', async(req,res) =>{
     try {
         const musicas = await ArtistaService.obterMusicas();
         res.status(200).send(musicas);
@@ -10,7 +10,7 @@ router.get('/all', async(req,res) =>{
     }
 });
 
-router.get('/all/:nome', async (req, res) => {
+router.get('/:nome', async (req, res) => {
     const { nome } = req.params;
 
     try{
