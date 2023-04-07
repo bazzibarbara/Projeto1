@@ -15,7 +15,7 @@ router.post('/add', async(req,res) => {
 });
 
 //modulo read todos os usuarios (R DO CRUD)
-router.get('/', async (req,res) => {
+router.get('/all', async (req,res) => {
     try{
         const usuarios = await UsuarioService.obterUsuarios();
         res.status(200).send(usuarios);
@@ -25,7 +25,7 @@ router.get('/', async (req,res) => {
 });
 
 //modulo read pelo id do usuario 
-router.get('/', async (req,res) => {
+router.get('/all/:id', async (req,res) => {
     const { id } = req.params;
     try{
         const lerUsuarioId = await UsuarioService.findByPk(id);

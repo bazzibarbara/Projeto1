@@ -25,7 +25,7 @@ router.post('/add', async(req,res) =>{
     const body = req.body;
     try {
         await ArtistaService.adicionarArtista(body);
-        return res.status(201).json('Artistas criado com sucesso');
+        return res.status(201).json('Artista criado com sucesso');
     } catch {
         return res.status(400);
     }
