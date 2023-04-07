@@ -3,10 +3,10 @@ const ArtistaService = require('../services/ArtistaService');
 
 router.get('/all', async(req,res) =>{
     try {
-        await ArtistaService.obterMusicas();
-         res.status(200).send(musicas);
+        const musicas = await ArtistaService.obterMusicas();
+        res.status(200).send(musicas);
     } catch {
-         res.status(400);
+        res.status(400);
     }
 });
 
@@ -15,9 +15,9 @@ router.get('/all/:nome', async (req, res) => {
 
     try{
         const artista = await ArtistaService.obterArtistaPorNome(nome);
-        res.status(200).send(artista)
+        res.status(200).send(artista);
     }catch{
-        res.status(400).json('Artista nao encontrado.')
+        res.status(400).json('Artista nao encontrado.');
     }
 });
 

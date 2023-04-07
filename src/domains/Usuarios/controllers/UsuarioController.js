@@ -3,7 +3,7 @@ const UsuarioService = require('../service/UsuarioService');
 
 
 //cria usuario(C do CRUD)
-router.post('/usuario/add', async(req,res) => {
+router.post('/add', async(req,res) => {
     const body = req.body;
 
     try {
@@ -15,7 +15,7 @@ router.post('/usuario/add', async(req,res) => {
 });
 
 //modulo read todos os usuarios (R DO CRUD)
-router.get('/usuario', async (req,res) => {
+router.get('/', async (req,res) => {
     try{
         const usuarios = await UsuarioService.obterUsuarios();
         res.status(200).send(usuarios);
@@ -25,7 +25,7 @@ router.get('/usuario', async (req,res) => {
 });
 
 //modulo read pelo id do usuario 
-router.get('/usuario/:id', async (req,res) => {
+router.get('/', async (req,res) => {
     const { id } = req.params;
     try{
         const lerUsuarioId = await UsuarioService.findByPk(id);
@@ -36,7 +36,7 @@ router.get('/usuario/:id', async (req,res) => {
 });
 
 //atualiza um usuario (U do crud)
-router.put('/edit/usuario/:nome/:novoNome', async (req,res) =>{
+router.put('/edit/:nome/:novoNome', async (req,res) =>{
     const { nome, novoNome } = req.params;
     
     try{
@@ -49,7 +49,7 @@ router.put('/edit/usuario/:nome/:novoNome', async (req,res) =>{
 
 
 //deleta um usuario pelo nome (D do crud)
-router.delete('/usuario/delete', async(req,res) =>{
+router.delete('/delete', async(req,res) =>{
     const { nome } = req.params;
     try{
         await UsuarioService.deletarUsuario(nome);
