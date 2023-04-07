@@ -2,7 +2,7 @@ const express = require ('express');
 const router = express.Router();
 const MusicaService = require('../services/MusicaService');
 
-router.get('/all', async (res) => {
+router.get('/all', async (req, res) => {
     try{
         const musicas = await MusicaService.obterMusicas();
         res.status(200).send(musicas);
@@ -35,12 +35,12 @@ router.post('/add', async (req, res) => {
 });
 
 // edita a quantidade de downloads de uma musica pelo nome
-router.put('/edit/:nome/:quantidadeDownloads', async (req, res) => {
-    const { nome, quantidadeDownloads } = req.params;
+router.put('/edit/:nome/:foto_str', async (req, res) => {
+    const { nome, foto_str } = req.params;
     
     try{
-        await MusicaService.editarNumDownloads(nome, quantidadeDownloads);
-        res.status(200).send(`Numero de downloads da musica ${nome} editado com sucesso.`);
+        await MusicaService.editarFoto(nome, foto_str);
+        res.status(200).send(`A foto da musica ${nome} editado com sucesso.`);
     }catch{
         res.status(400).json();
     }

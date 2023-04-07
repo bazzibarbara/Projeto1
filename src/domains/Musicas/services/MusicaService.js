@@ -5,13 +5,13 @@ class MusicaService{
     /**@brief Deleta uma musica.*/
     async deletarMusica(nome){
         
-        const musica = await Musica.findOne({ where: { nome: `${nome}`} });
+        const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
             throw new Error('Musica nao encontrada.');
         }
 
-        Musica.destroy({ where: { nome: `${nome}` } });
+        Musica.destroy({ where: { titulo: nome } });
     }
 
     
@@ -21,7 +21,7 @@ class MusicaService{
 
     /**@brief Busca uma musica no banco de dados pelo nome.*/
     async obterMusicaPorNome(nome){
-        const musica = await Musica.findOne({ where: { nome: `${nome}`} });
+        const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
             throw new Error('Musica nao encontrada.');
@@ -41,14 +41,14 @@ class MusicaService{
     }
 
     /**@brief Filtra uma musica pelo nome e altera o seu numero de downloads.*/
-    async editarNumDownloads(nome, quant_downloads){
-        const musica = await Musica.findOne({ where: { nome: `${nome}`} });
+    async editarFoto(nome, foto_str){
+        const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
             throw new Error('Musica nao encontrada.');
         }
 
-        musica.quantidadeDownloads = quant_downloads;
+        musica.foto = foto_str;
         await musica.save();
     }
 
