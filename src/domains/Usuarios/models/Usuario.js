@@ -22,6 +22,12 @@ const Usuario = database.define('Usuario', {
     senha: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+
+    cargo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'user'
     }
 });
 

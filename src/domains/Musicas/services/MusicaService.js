@@ -32,12 +32,9 @@ class MusicaService{
 
     /**@brief Adiciona uma musica ao banco.*/
     async adicionarMusica(req_body){
-        
-        if (!req_body){
-            throw new Error('Musica sem dados nao pode ser adicionada.');
-        }
-        
-        await Musica.create(req_body);
+        const { Foto, Titulo, Categoria, idArtista } = req_body;
+        const musica = await Musica.create({ Foto, Titulo, Categoria, idArtista });
+        return musica;
     }
 
     /**@brief Filtra uma musica pelo nome e altera o seu numero de downloads.*/
