@@ -32,8 +32,8 @@ class MusicaService{
 
     /**@brief Adiciona uma musica ao banco.*/
     async adicionarMusica(req_body){
-        const { Foto, Titulo, Categoria, idArtista } = req_body;
-        const musica = await Musica.create({ Foto, Titulo, Categoria, idArtista });
+        const { foto, titulo, categoria, idArtista } = req_body;
+        const musica = await Musica.create({ foto, titulo, categoria, idArtista });
         return musica;
     }
 
