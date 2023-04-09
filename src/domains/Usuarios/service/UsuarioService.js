@@ -24,14 +24,14 @@ class UsuarioService{
     }
     
     /**@brief Deleta um usuario.*/
-    async deletarUsuario(nome){
-        const usuario = await Usuario.findOne({ where: { nome: `${nome}`} });
+    async deletarUsuario(id){
+        const usuario = await Usuario.findOne({ where: { id: `${id}`} });
 
         if (!usuario){
             throw new Error('Usuario nao encontrado.');
         }
 
-        Usuario.destroy({ where: { nome: `${nome}` } });
+        Usuario.destroy({ where: { id: `${id}` } });
     }
 }
 

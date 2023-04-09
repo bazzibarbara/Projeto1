@@ -49,10 +49,10 @@ router.put('/edit/:nome/:novoNome', async (req,res) =>{
 
 
 //deleta um usuario pelo nome (D do crud)
-router.delete('/delete', async(req,res) =>{
-    const { nome } = req.params;
+router.delete('/delete/:id', async(req,res) =>{
+    const { id } = req.params;
     try{
-        await UsuarioService.deletarUsuario(nome);
+        await UsuarioService.deletarUsuario(id);
         res.status(200).json({message: 'Usuario deletado com sucesso'});
     }
     catch{
