@@ -9,7 +9,6 @@ router.get('/all', async (req, res) => {
     }catch{
         res.status(400).json('Nao foi possivel acessar a tabela de musicas.');
     }
-    
 });
 
 // retorna dados de uma musica pelo nome
@@ -19,6 +18,17 @@ router.get('/all/:nome', async (req,res) =>{  //obrigatoriamente precisa passar 
     try{
         const musica = await MusicaService.obterMusicaPorNome(nome);
         res.status(200).json(musica);
+    }catch{
+        res.status(400).json(`Nao foi encontrada musica com o nome ${nome}.`);
+    }
+});
+
+router.get('/all/:nome/artista', async (req, res) => {
+    const { nome } = req.params;
+    
+    try{
+        const artista = await MusicaService.obterArtistaPorMusica(nome);
+        res.status(200).json(artista);
     }catch{
         res.status(400).json(`Nao foi encontrada musica com o nome ${nome}.`);
     }
