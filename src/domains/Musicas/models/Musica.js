@@ -34,7 +34,7 @@ Musica.belongsTo(Artista);
 
 Musica.sync({alter: false, force: false})
     .then(() => {
-        console.log('Tabela de Musica foi (re)criada');
+        console.log('Tabela de Musicas foi (re)criada');
     })
     .catch((err) => console.log(err));
 

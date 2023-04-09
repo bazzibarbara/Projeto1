@@ -1,24 +1,26 @@
-const Usuario = sequelize.define('Usuario', { name: DataTypes.STRING });
-const Musica = sequelize.define('Musica', { name: DataTypes.STRING });
-const UsuarioMusicas = sequelize.define('UsuarioMusicas', {
+const database = require('../../../../database/index');
+const Usuario = require('../../Usuarios/models/Usuario');
+const Musica = require('../../Musicas/models/Musica');
+
+const UsuarioMusicas = sequelize.define('UsuarioMusica', {
   idMusica: {
     type: DataTypes.INTEGER,
     references: {
-      model: Musica,
+      model: 'Musicas',
       key: 'id'
     }
   },
   idUsuario: {
     type: DataTypes.INTEGER,
     references: {
-      model: Usuario,
+      model: 'Usuarios',
       key: 'id'
     }
   }
 });
 
-Movie.belongsToMany(Musica, { through: UsuarioMusicas });
-Actor.belongsToMany(Usuario, { through: UsuarioMusicas });
+Usuario.belongsToMany(Musica, { through: UsuarioMusicas });
+Musica.belongsToMany(Usuario, { through: UsuarioMusicas });
 
 UsuarioMusicas.sync({alter: false, force: false})
     .then(() => {
