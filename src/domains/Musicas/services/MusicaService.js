@@ -1,3 +1,4 @@
+const Artista = require('../../Artistas/models/Artista');
 const Musica = require('../models/Musica');
 
 class MusicaService{
@@ -28,6 +29,15 @@ class MusicaService{
         }
             
         return musica;
+    }
+
+    async obterArtistaPorMusica(nome){
+        const musica = await Musica.findOne({ where: { titulo: nome }, include: [Artista] });
+        if (!musica){
+            throw new Error('Musica nao encontrada.');
+        }
+            
+        return musica.Artistum.nome;
     }
 
     /**@brief Adiciona uma musica ao banco.*/

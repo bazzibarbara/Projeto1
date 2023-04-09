@@ -30,7 +30,10 @@ Artista.hasMany(Musica, {
     foreignKey: 'idArtista'
 });
 
-Musica.belongsTo(Artista);
+Musica.belongsTo(Artista, {
+    constraint: true,
+    foreignKey: 'idArtista'
+});
 
 Musica.sync({alter: false, force: false})
     .then(() => {
