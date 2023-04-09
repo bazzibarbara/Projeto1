@@ -37,8 +37,8 @@ router.get('/all/:nome/artista', async (req, res) => {
 // adiciona uma musica na lista
 router.post('/add', async (req, res) => {
     try{
-        const musica = await MusicaService.adicionarMusica(req.body);
-        res.status(201).json(musica);
+        await MusicaService.adicionarMusica(req.body);
+        res.status(201).json('Nova musica criada com sucesso!');
     }catch{
         res.status(400).send('Nao foi possivel adicionar a musica.');
     }
