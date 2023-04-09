@@ -1,6 +1,6 @@
 const database = require('../../../../database/index');
 const {DataTypes} = require('sequelize');
-const Musica = require('../../Musicas/models/Musica');
+
 const UsuarioMusica = require('../../UsuarioMusicas/models/UsuarioMusica');
 
 const Usuario = database.define('Usuario', {
@@ -32,12 +32,6 @@ const Usuario = database.define('Usuario', {
         defaultValue: 'user'
     }
 });
-
-Usuario.belongsToMany(Musica, { 
-    through: UsuarioMusica,
-    foreignKey: 'idUsuario',
-    otherKey: 'idMusica'
-  });
 
 Usuario.sync({alter: true, force: false})
     .then(() => {
