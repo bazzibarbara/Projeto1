@@ -21,6 +21,17 @@ router.get('/all/:nome', async (req, res) => {
     }
 });
 
+router.get('/all/:nome/musicas', async (req, res) => {
+    const { nome } = req.params;
+
+    try{
+        const musica = await ArtistaService.obterMusicasPorArtista(nome);
+        res.status(200).send(musica);
+    }catch{
+        res.status(400).json('Artista nao encontrado.');
+    }
+});
+
 router.post('/add', async(req,res) =>{
     const body = req.body;
     try {

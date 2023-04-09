@@ -1,4 +1,5 @@
 const Artista = require('../models/Artista');
+const Musica = require('../../Musicas/models/Musica');
 
 class ArtistasService{
 
@@ -22,6 +23,16 @@ class ArtistasService{
         }
             
         return artista;
+    }
+
+    async obterMusicasPorArtista(nome){
+        const artista = await Artista.findOne({ where: { nome: nome }, include: [Musica] });
+
+        if (!artista){
+            throw new Error('Artista nao encontrado.');
+        }
+            
+        return artista.Musicas;
     }
 
     async editarFoto(nome, novafoto){
