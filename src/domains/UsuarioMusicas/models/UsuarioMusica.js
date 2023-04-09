@@ -7,6 +7,14 @@ const UsuarioMusica = database.define('UsuarioMusica', {
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
+    },
+
+    idMusica: {
+      type: DataTypes.INTEGER
+    },
+
+    idUsuario: {
+      type: DataTypes.INTEGER
     }
 });
 

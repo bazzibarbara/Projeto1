@@ -1,5 +1,6 @@
 const Artista = require('../../Artistas/models/Artista');
 const Musica = require('../models/Musica');
+const UsuarioMusica = require('../../UsuarioMusicas/models/UsuarioMusica')
 
 class MusicaService{
 
@@ -44,7 +45,6 @@ class MusicaService{
     async adicionarMusica(req_body){
         const { foto, titulo, categoria, idArtista } = req_body;
         const musica = await Musica.create({ foto, titulo, categoria, idArtista });
-        return musica;
     }
 
     /**@brief Filtra uma musica pelo nome e altera o seu numero de downloads.*/
