@@ -9,7 +9,7 @@ function generateJWT(user, res){
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: user.role, // pode acessar o jwt por esse atributo 
     };
 
     const token = jwt.sign ({ user: body }, process.env.SECRET_KEY,
@@ -46,7 +46,7 @@ function generateJWT(user, res){
         }
         async function loginMiddleware(req, res, next ){
             try {
-                const user =await User.findOne({ where: {email: req.body.email}});
+                const user =await User.findOne({ where: {role: req.body.role}});
                 if (!user) {
                     throw new PermissionError('E-mail e/ou senha incorretos');
                 } else {
@@ -58,6 +58,23 @@ function generateJWT(user, res){
             }
             generateJWT(user, res);
             res.status(statusCodes.noContent).end();
+            catch (error) {
+            next(error);
+            }
+        }
+        //checagem se o usuario ja esta logado
+        async function notLoggedIn(req, res, next ){
+            try {
+                const user =await User.findOne({ where: {email: req.body.email}});
+                if (!user) {
+                    throw new PermissionError('Você precisa estar logado para acessar essa pagina');
+                } else {
+                    const matchingJWT = await compare(req.body.role, user.role);
+                    if(!matchingRole) {
+                        ('Usuario não esta logado');
+                    }
+                }
+            }
             catch (error) {
             next(error);
             }

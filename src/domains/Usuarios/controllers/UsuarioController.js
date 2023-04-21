@@ -66,16 +66,18 @@ router.put('/edit/:nome/:novoNome', async (req,res) =>{
 
 
 //deleta um usuario pelo nome (D do crud)
-router.delete('/delete/:id', async(req,res) =>{
-    const { id } = req.params;
-    try{
-        await UsuarioService.deletarUsuario(id);
-        res.status(200).json({message: 'Usuario deletado com sucesso'});
-    }
-    catch{
-        res.status(404).send('Usuario nao encontrado');
-    }
-});
+router.delete('/delete/:id',
+    verifyJWT
+    async(req,res) =>{
+        const { id } = req.params;
+        try{
+            await UsuarioService.deletarUsuario(id);
+            res.status(200).json({message: 'Usuario deletado com sucesso'});
+        }
+        catch{
+            res.status(404).send('Usuario nao encontrado');
+        }
+    });
 
 
 module.exports = router;
