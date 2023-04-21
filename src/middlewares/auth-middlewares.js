@@ -65,17 +65,15 @@ function generateJWT(user, res){
         //checagem se o usuario ja esta logado
         async function notLoggedIn(req, res, next ){
             try {
-                const user =await User.findOne({ where: {email: req.body.email}});
-                if (!user) {
-                    throw new PermissionError('Você precisa estar logado para acessar essa pagina');
-                } else {
-                    const matchingJWT = await compare(req.body.role, user.role);
-                    if(!matchingRole) {
-                        ('Usuario não esta logado');
+        // Consulta o banco de dados usando o ID do usuário do payload do JWT
+                        const user = await User.findById(decoded.userId);
+        // Verifica se o usuário existe e se tem as permissões necessárias
+                if (user && user.role === 'admin') {
+                        ('Usuario autorizado e já está logado');
                     }
-                }
-            }
-            catch (error) {
+                 else {
+                        ('Usuario não esta logado');
+                  }} catch (error) {
             next(error);
-            }
+            } 
         }
