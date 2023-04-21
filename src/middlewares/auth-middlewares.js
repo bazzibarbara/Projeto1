@@ -77,3 +77,30 @@ function generateJWT(user, res){
             next(error);
             } 
         }
+
+    async function logoutMiddleware(req, res, next) {
+    // Verifica se o token está presente no cabeçalho da requisição
+    const token = await req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
+
+        if (token) {
+            try {
+                // Verifica se o token é válido e decodifica o payload
+                    const decoded = jwt.verify(token, 'segredo');
+
+                // Define a data de expiração do token para o passado
+                    decoded.exp = 1;
+
+                // Gera um novo token com a data de expiração atualizada
+             const newToken = jwt.sign(decoded, 'segredo');
+
+                    // Define o novo token no cabeçalho da resposta
+                    res.set('Authorization', `Bearer ${newToken}`);
+            } catch (erro) {
+                next(error);
+            }
+  }
+
+            // Redireciona o usuário para a página de login
+            res.redirect('/login');
+    }
+
