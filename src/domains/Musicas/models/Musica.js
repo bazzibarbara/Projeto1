@@ -1,7 +1,6 @@
 const database = require('../../../../database/index');
 const {DataTypes} = require('sequelize');
 const Artista = require('../../Artistas/models/Artista');
-const UsuarioMusica = require('../../UsuarioMusicas/models/UsuarioMusica');
 
 const Musica = database.define('Musica', {
     id: {

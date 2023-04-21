@@ -1,5 +1,7 @@
 const database = require('../../../../database/index');
 const {DataTypes} = require('sequelize');
+const Usuario = require('../../Usuarios/models/Usuario');
+const Musica = require('../../Musicas/models/Musica');
 
 const UsuarioMusica = database.define('UsuarioMusica', {
     id: {
@@ -10,13 +12,24 @@ const UsuarioMusica = database.define('UsuarioMusica', {
     },
 
     idMusica: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references:{
+            model: Musica,
+            key: 'id'
+        }
     },
 
     idUsuario: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: Usuario,
+            key: 'id'
+        }
     }
 });
+
+Musica.belongsToMany(Usuario, { through: UsuarioMusica });
+Usuario.belongsToMany(Musica, { through: UsuarioMusica });
 
 UsuarioMusica.sync({alter: false, force: false})
     .then(() => {

@@ -96,5 +96,5 @@ module.exports = {
     loginMiddleware,
     notLoggedIn,
     verifyJWT,
-    checkRole,
+    //checkRole,
 };

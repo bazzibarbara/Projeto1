@@ -1,8 +1,6 @@
 const database = require('../../../../database/index');
 const {DataTypes} = require('sequelize');
 
-const UsuarioMusica = require('../../UsuarioMusicas/models/UsuarioMusica');
-
 const Usuario = database.define('Usuario', {
     id: {
         type: DataTypes.INTEGER,
