@@ -1,35 +1,30 @@
 const { QueryError } = require('sequelize');
 const Usuario = require('../models/Usuario');
-
-async create(body) {
-    if (body.role == userRoles.admin){
-        throw new PermissionError('Não é possivel criar um usuário com cargo de administrador');
-    }
-    const user = await User.findOne{(where:{ email: body.email})};
-    if(user){
-        throw new QueryError('E-mail já cadastrado');
-
-    } else {
-        const user = {
-            name: body.name, 
-            email: body.email, 
-            password: body.password,
-            role: body.role, 
-        };
-        user.password = await this.encryptPassword(body.password);
-       
-        await User.create(user);
-    }
-}
-
-
-
-
-
+const bcrypt = require('bcrypt');
 
 
 
 class UsuarioService{
+    async create(body) {
+        if (body.role == userRoles.admin){
+            throw new PermissionError('Não é possivel criar um usuário com cargo de administrador');
+        }
+        const user = await User.findOne{(where:{ email: body.email})};
+        if(user){
+            throw new QueryError('E-mail já cadastrado');
+    
+        } else {
+            const user = {
+                name: body.name, 
+                email: body.email, 
+                password: body.password,
+                role: body.role, 
+            };
+            user.password = await this.encryptPassword(body.password);
+           
+            await User.create(user);
+        }
+    }
      
     async encryptPassword(password) {
         const saltRounds = 10;
@@ -37,6 +32,21 @@ class UsuarioService{
         return encryptPassword;
     }
 
+    async update(id,body, loggedUser){
+        const user = await this.getById(id);
+        if (loggedUser.role != user.Roles.admin && loggedUser.id != id){
+            throw new NotAuthorizedError('Você não tem permissão para editar outro usuário');
+        }
+        if (loggedUser.role && loggedUser.role != userRoles.admin){
+            throw new NotAuthorizedError('Você não tem permissão para editar seu cargo');
+        }
+        if (body.password){
+            body.password = await this.encryptPassword(body.password);
+        }
+
+        await user.update(body);
+
+    }
 
 
     /**@brief Busca no banco todos os usuarios cadastrados.*/
