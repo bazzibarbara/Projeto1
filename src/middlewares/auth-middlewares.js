@@ -1,3 +1,9 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const User = require ('../domains/Usuarios/models/Usuario.js');
+const PermissionError = require('../../errors/InvalidParamError.js');
+const statusCodes = require('../../constants/statusCodes.js');
+
 function generateJWT(user, res){
     const body = {
         id: user.id,
@@ -13,6 +19,7 @@ function generateJWT(user, res){
             httpOnly: true,
             secure: process.env.NODE_EMV !== 'development',
         });
+}
         function cookieExtractor(req) {
             let token = null;
             if(req && req.cookies){
@@ -50,5 +57,8 @@ function generateJWT(user, res){
                 }
             }
             generateJWT(user, res);
+            res.status(statusCodes.noContent).end();
+            catch (error) {
+            next(error);
+            }
         }
-}
