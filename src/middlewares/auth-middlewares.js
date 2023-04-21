@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require ('../domains/Usuarios/models/Usuario.js');
@@ -9,98 +10,91 @@ function generateJWT(user, res){
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role, // pode acessar o jwt por esse atributo 
+        role: user.role,
     };
 
     const token = jwt.sign ({ user: body }, process.env.SECRET_KEY,
         {   expiresIn: process.env.JWT_EXPIRATION });
 
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: process.env.NODE_EMV !== 'development',
-        });
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_EMV !== 'development',
+    });
 }
-        function cookieExtractor(req) {
-            let token = null;
-            if(req && req.cookies){
-                token = req.cookies['jwt'];
-            }
-            return token;
-        }
 
-        function verifyJWT(req,res,next){
-            try{
-                const token = cookieExtractor(req);
-                if(token){
-                    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-                    req.user = decoded.user;
-                }
-                if(!req.user){
-                    throw new PermissionError(
-                        'Você precisa estar logado para realizar essa ação!');
-                }
-                next();
-            } catch(error) {
-                next(error);
-            }
-        }
-        async function loginMiddleware(req, res, next ){
-            try {
-                const user =await User.findOne({ where: {role: req.body.role}});
-                if (!user) {
-                    throw new PermissionError('E-mail e/ou senha incorretos');
-                } else {
-                    const matchingPassword = await bcrypt.compare(req.body.password, user.password);
-                    if(!matchingPassword) {
-                        throw new PermissionError('E-mail e/ou senha incorretos');
-                    }
-                }
-            }
-            generateJWT(user, res);
-            res.status(statusCodes.noContent).end();
-            catch (error) {
-            next(error);
-            }
-        }
-        //checagem se o usuario ja esta logado
-        async function notLoggedIn(req, res, next ){
-            try {
-        // Consulta o banco de dados usando o ID do usuário do payload do JWT
-                        const user = await User.findById(decoded.userId);
-        // Verifica se o usuário existe e se tem as permissões necessárias
-                if (user && user.role === 'admin') {
-                        ('Usuario autorizado e já está logado');
-                    }
-                 else {
-                        ('Usuario não esta logado');
-                  }} catch (error) {
-            next(error);
-            } 
-        }
+function cookieExtractor(req) {
+    let token = null;
 
-    async function logoutMiddleware(req, res, next) {
-    // Verifica se o token está presente no cabeçalho da requisição
-    const token = await req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
-
-        if (token) {
-            try {
-                // Verifica se o token é válido e decodifica o payload
-                    const decoded = jwt.verify(token, 'segredo');
-
-                // Define a data de expiração do token para o passado
-                    decoded.exp = 1;
-
-                // Gera um novo token com a data de expiração atualizada
-             const newToken = jwt.sign(decoded, 'segredo');
-
-                    // Define o novo token no cabeçalho da resposta
-                    res.set('Authorization', `Bearer ${newToken}`);
-            } catch (erro) {
-                next(error);
-            }
-  }
-
-            // Redireciona o usuário para a página de login
-            res.redirect('/login');
+    if(req && req.cookies){
+        token = req.cookies['jwt'];
     }
 
+    return token;
+}
+
+function verifyJWT(req,res,next){
+    try{
+        const token = cookieExtractor(req);
+
+        if(token){
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            req.user = decoded.user;
+        }
+
+        if(!req.user){
+            throw new PermissionError(
+                'Você precisa estar logado para realizar essa ação!');
+        }
+
+        next();
+    } catch(error) {
+        next(error);
+    }
+}
+
+async function loginMiddleware(req, res, next ){
+    try {
+        const user = await User.findOne({ where: {email: req.body.email}});
+        if (!user) {
+            throw new PermissionError('E-mail e/ou senha incorretos');
+        } else {
+            const matchingPassword = await bcrypt.compare(req.body.password, user.password);
+            if(!matchingPassword) {
+                throw new PermissionError('E-mail e/ou senha incorretos');
+            }
+        }
+        
+        generateJWT(user, res);
+
+        res.status(statusCodes.noContent).end();
+    }
+    catch (error) {
+        next(error);
+    }
+
+    
+}
+
+//checagem se o usuario ja esta logado
+function notLoggedIn(req, res, next) {
+    try {
+        const token = cookieExtractor(req);
+  
+        if (token) {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            if (decoded) {
+                throw new PermissionError('Você já está logado no sistema!');
+            }
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = {
+    loginMiddleware,
+    notLoggedIn,
+    verifyJWT,
+    checkRole,
+};
