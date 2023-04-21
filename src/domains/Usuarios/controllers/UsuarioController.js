@@ -1,6 +1,10 @@
 const router =  require('express').Router();
 const UsuarioService = require('../service/UsuarioService');
 
+router.post('/login', notLoggedIn, loginMiddleware);
+verifyJWT
+router.post('/logout', 
+);
 
 //cria usuario(C do CRUD)
 router.post('/add', async(req,res) => {
