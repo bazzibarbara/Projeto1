@@ -1,6 +1,8 @@
 const Artista = require('../models/Artista');
 const Musica = require('../../Musicas/models/Musica');
 
+const QueryError = require('../../../../errors/QueryError');
+
 class ArtistasService{
 
     /**@brief Adiciona um artista ao banco de dados. */
@@ -19,7 +21,7 @@ class ArtistasService{
         const artista = await Artista.findOne({ where: { nome: `${nome}`} });
 
         if (!artista){
-            throw new Error('Artista nao encontrado.');
+            throw new QueryError('Artista nao encontrado.');
         }
             
         return artista;
@@ -29,7 +31,7 @@ class ArtistasService{
         const artista = await Artista.findOne({ where: { nome: nome }, include: [Musica] });
 
         if (!artista){
-            throw new Error('Artista nao encontrado.');
+            throw new QueryError('Artista nao encontrado.');
         }
             
         return artista.Musicas;
@@ -39,7 +41,7 @@ class ArtistasService{
         const artista = await Artista.findOne({ where: { nome: `${nome}`} });
 
         if (!artista){
-            throw new Error('Artista nao encontrado.');
+            throw new QueryError('Artista nao encontrado.');
         }
 
         artista.foto = novafoto;
@@ -52,7 +54,7 @@ class ArtistasService{
         const artista = await Artista.findOne({ where: { nome: `${nome}`} });
 
         if (!artista){
-            throw new Error('Artista nao encontrado.');
+            throw new QueryError('Artista nao encontrado.');
         }
 
         Artista.destroy({ where: { nome: `${nome}` } });

@@ -1,6 +1,7 @@
 const Artista = require('../../Artistas/models/Artista');
 const Musica = require('../models/Musica');
-const UsuarioMusica = require('../../UsuarioMusicas/models/UsuarioMusica');
+
+const QueryError = require('../../../../errors/QueryError');
 
 class MusicaService{
 
@@ -26,7 +27,7 @@ class MusicaService{
         const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
-            throw new Error('Musica nao encontrada.');
+            throw new QueryError('Musica nao encontrada.');
         }
             
         return musica;
@@ -35,7 +36,7 @@ class MusicaService{
     async obterArtistaPorMusica(nome){
         const musica = await Musica.findOne({ where: { titulo: nome }, include: [Artista] });
         if (!musica){
-            throw new Error('Musica nao encontrada.');
+            throw new QueryError('Musica nao encontrada.');
         }
             
         return musica.Artistum.nome;
@@ -52,7 +53,7 @@ class MusicaService{
         const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
-            throw new Error('Musica nao encontrada.');
+            throw new QueryError('Musica nao encontrada.');
         }
 
         musica.foto = foto_str;

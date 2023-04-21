@@ -1,19 +1,22 @@
-const { QueryError } = require('sequelize');
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
+const User = require('../models/User.js');
+const userRoles = require('../constants/userRoles.js');
 
-
+const QueryError = require('../../../../errors/QueryError');
+const PermissionError = require('../../../../errors/PermissionError');
+const NotAuthorizedError = require('../../../../errors/NotAuthorizedError');
 
 class UsuarioService{
     async create(body) {
-        if (body.role == userRoles.admin){
-            throw new PermissionError('Não é possivel criar um usuário com cargo de administrador');
+        if (body.role == userRoles.admin) {
+            throw new PermissionError('Não é possível criar um usuário com cargo de administrador!');
         }
-        const user = await User.findOne{(where:{ email: body.email})};
+        const user = await User.findOne({where: {email: body.email}});
         if(user){
             throw new QueryError('E-mail já cadastrado');
     
-        } else {
+        } else{
             const user = {
                 name: body.name, 
                 email: body.email, 
