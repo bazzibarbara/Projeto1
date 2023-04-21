@@ -1,9 +1,22 @@
 const router =  require('express').Router();
+const statusCodes = require('../../../../constants/statusCodes');
 const UsuarioService = require('../service/UsuarioService');
 
 router.post('/login', notLoggedIn, loginMiddleware);
 verifyJWT
 router.post('/logout', 
+);
+
+router.put('/:id',
+    verifyJWT,
+    async(req,res, next) => {
+        try{
+            await UsuarioService.update(req.params.id, req.body, req.user);
+            res.status(statusCodes.noContent).end();
+        }   catch (error) {
+            next(error);
+        }
+    },
 );
 
 //cria usuario(C do CRUD)
