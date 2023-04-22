@@ -8,6 +8,12 @@ const PermissionError = require('../../../../errors/PermissionError');
 const NotAuthorizedError = require('../../../../errors/NotAuthorizedError');
 
 class UsuarioService{
+    async encryptPassword(password) {
+        const saltRounds = 10;
+        const encryptPassword = await bcrypt.hash(password, saltRounds);
+        return encryptPassword;
+    }
+
     async create(body) {
         if (body.role == userRoles.admin) {
             throw new PermissionError('Não é possível criar um usuário com cargo de administrador!');
@@ -27,12 +33,6 @@ class UsuarioService{
            
             await User.create(user);
         }
-    }
-     
-    async encryptPassword(password) {
-        const saltRounds = 10;
-        const encryptPassword = await bcrypt.hash(password, saltRounds);
-        return encryptPassword;
     }
 
     async update(id,body, loggedUser){
@@ -56,6 +56,7 @@ class UsuarioService{
     async obterUsuarios(){
         return await Usuario.findAll();
     }
+    
     /**@brief Adiciona novo usuario no banco.*/
     async adicionarUsuario(body){
         await Usuario.create(body);

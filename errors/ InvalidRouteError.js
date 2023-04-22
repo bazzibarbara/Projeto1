@@ -1,5 +1,5 @@
 /**
- * O parâmetro passado não atende aos requerimentos exigidos.
+ * Rota inválida acessada.
  */
 class InvalidRouteError extends Error {
     constructor(msg) {

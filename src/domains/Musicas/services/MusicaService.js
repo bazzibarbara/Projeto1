@@ -11,7 +11,7 @@ class MusicaService{
         const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
-            throw new Error('Musica nao encontrada.');
+            throw new QueryError('Musica nao encontrada.');
         }
 
         Musica.destroy({ where: { titulo: nome } });
@@ -59,7 +59,6 @@ class MusicaService{
         musica.foto = foto_str;
         await musica.save();
     }
-
 
 }
 

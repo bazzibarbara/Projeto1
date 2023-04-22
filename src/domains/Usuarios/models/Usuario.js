@@ -1,5 +1,6 @@
 const database = require('../../../../database/index');
 const {DataTypes} = require('sequelize');
+const userRoles = require('../constants/userRoles.js');
 
 const Usuario = database.define('Usuario', {
     id: {
@@ -25,9 +26,9 @@ const Usuario = database.define('Usuario', {
     },
 
     cargo: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'user'
+        type: DataTypes.ENUM,
+        values: [userRoles.admin, userRoles.user],
+        allowNull: false
     }
 });
 

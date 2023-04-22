@@ -5,6 +5,7 @@ const UsuarioService = require('../service/UsuarioService');
 const {loginMiddleware, verifyJWT, checkRole, notLoggedIn} = require('../../../middlewares/auth-middlewares.js');
 
 router.post('/login', notLoggedIn, loginMiddleware);
+
 router.post('/logout', 
     verifyJWT,
     async (req, res, next) => {
