@@ -4,6 +4,7 @@ const statusCodes = require('../../../../constants/statusCodes');
 const UsuarioService = require('../service/UsuarioService');
 const {loginMiddleware, verifyJWT, checkRole, notLoggedIn} = require('../../../middlewares/auth-middlewares.js');
 
+<<<<<<< HEAD
 router.post('/login', notLoggedIn, loginMiddleware);
 
 router.post('/logout', 
@@ -16,6 +17,12 @@ router.post('/logout',
             next(error);
         }
     },
+=======
+router.post('/login', notLoggedIn/*checagem se o usuario ja esta logado*/, loginMiddleware);
+verifyJWT
+router.post('/logout', logoutMiddleware
+verifyJWT,
+>>>>>>> d51fe6f (feat instalação npm typescript)
 );
 
 router.put('/:id',
