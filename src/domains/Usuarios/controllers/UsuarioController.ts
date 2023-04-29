@@ -6,7 +6,6 @@ const {loginMiddleware, verifyJWT, checkRole, notLoggedIn} = require('../../../m
 
 <<<<<<< HEAD
 router.post('/login', notLoggedIn, loginMiddleware);
-
 router.post('/logout', 
     verifyJWT,
     async (req, res, next) => {

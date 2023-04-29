@@ -45,6 +45,7 @@ function verifyJWT(req,res,next){
             throw new PermissionError(
                 'Você precisa estar logado para realizar essa ação!');
         }
+
         next();
     } catch(error) {
         next(error);
@@ -70,6 +71,8 @@ async function loginMiddleware(req, res, next ){
     catch (error) {
         next(error);
     }
+
+    
 }
 
 //checagem se o usuario ja esta logado
