@@ -3,6 +3,7 @@ const InvalidParamError = require('../../errors/InvalidParamError');
 const NotAuthorizedError = require('../../errors/NotAuthorizedError.js');
 const TokenError = require('../../errors/TokenError');
 const QueryError = require('../../errors/QueryError');
+const {JsonWebTokenError} = require('jsonwebtoken');
 const statusCodes = require('../../constants/statusCodes.js');
 
 function errorHandler(error, req, res, next){
@@ -13,7 +14,7 @@ function errorHandler(error, req, res, next){
         status = statusCodes.badRequest;
     }
 
-    if (error instanceof NotAuthorizedError) {
+    if (error instanceof NotAuthorizedError || error instanceof JsonWebTokenError) {
         status = statusCodes.forbidden;
     }
 

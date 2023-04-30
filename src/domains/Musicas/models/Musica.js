@@ -20,6 +20,11 @@ const Musica = database.define('Musica', {
         allowNull: false
     },
 
+    idArtista: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+
     categoria: {
         type: DataTypes.STRING,
         allowNull: false

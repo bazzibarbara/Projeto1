@@ -12,7 +12,11 @@ class ArtistasService{
 
     /**@brief Pesquisa e retorna todos os artistas do banco de dados. */
     async obterArtistas(){
-        return await Artista.findAll();
+        const artistas = await Artista.findAll();
+
+        if(!artistas) throw new QueryError('Nenhum artista disponível.');
+
+        return artistas;
     }
 
     /**@brief Busca um artista no banco de dados pelo nome. */
@@ -57,7 +61,7 @@ class ArtistasService{
             throw new QueryError('Artista nao encontrado.');
         }
 
-        Artista.destroy({ where: { nome: `${nome}` } });
+        artista.destroy();
     }
     
 }

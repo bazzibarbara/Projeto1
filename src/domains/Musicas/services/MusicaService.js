@@ -14,12 +14,16 @@ class MusicaService{
             throw new QueryError('Musica nao encontrada.');
         }
 
-        Musica.destroy({ where: { titulo: nome } });
+        musica.destroy();
     }
 
     
     async obterMusicas(){
-        return await Musica.findAll();
+        const musica = await Musica.findAll();
+
+        if(!musica) throw new QueryError('Nenhuma musica disponivel.');
+
+        return musica;
     }
 
     /**@brief Busca uma musica no banco de dados pelo nome.*/
@@ -35,6 +39,7 @@ class MusicaService{
 
     async obterArtistaPorMusica(nome){
         const musica = await Musica.findOne({ where: { titulo: nome }, include: [Artista] });
+        
         if (!musica){
             throw new QueryError('Musica nao encontrada.');
         }

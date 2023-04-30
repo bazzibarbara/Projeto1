@@ -23,14 +23,17 @@ app.use(express.urlencoded({
     extended:true
 }));
 
-const musicaRouter = require('../src/domains/Musicas/controllers/MusicaController');
+const musicaRouter = require('../src/domains/Musicas/controllers/index.js');
 app.use('/api/musica', musicaRouter);
 
-const artistaRouter = require('../src/domains/Artistas/controllers/ArtistaController');
+const artistaRouter = require('../src/domains/Artistas/controllers/index.js');
 app.use('/api/artista', artistaRouter);
 
-const usuarioRouter = require('../src/domains/Usuarios/controllers/UsuarioController');
+const usuarioRouter = require('../src/domains/Usuarios/controllers/index.js');
 app.use('/api/usuario', usuarioRouter);
+
+const usuarioMusicaRouter = require('../src/domains/UsuariosMusicas/controllers/index.js');
+app.use('/api/usuario', usuarioMusicaRouter);
 
 const errorHandler = require('../src/middlewares/error-handler.js');
 app.use(errorHandler);

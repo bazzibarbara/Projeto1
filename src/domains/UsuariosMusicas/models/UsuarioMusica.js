@@ -10,26 +10,24 @@ const UsuarioMusica = database.define('UsuarioMusica', {
         autoIncrement: true,
         allowNull: false
     },
-
-    idMusica: {
-        type: DataTypes.INTEGER,
-        references:{
-            model: Musica,
-            key: 'id'
-        }
-    },
-
-    idUsuario: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Usuario,
-            key: 'id'
-        }
-    }
 });
 
-Musica.belongsToMany(Usuario, { through: UsuarioMusica });
-Usuario.belongsToMany(Musica, { through: UsuarioMusica });
+Musica.belongsToMany(Usuario, {
+    through: UsuarioMusica,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
+});
+
+Usuario.belongsToMany(Musica, {
+    through: UsuarioMusica,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
+});
+
+Musica.hasMany(UsuarioMusica);
+UsuarioMusica.belongsTo(Musica);
+Usuario.hasMany(UsuarioMusica);
+UsuarioMusica.belongsTo(Usuario);
 
 UsuarioMusica.sync({alter: false, force: false})
     .then(() => {

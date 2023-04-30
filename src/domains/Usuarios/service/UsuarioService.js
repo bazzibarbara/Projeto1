@@ -2,7 +2,6 @@ const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const User = require('../models/Usuario');
 const userRoles = require('../constants/userRoles.js');
-
 const QueryError = require('../../../../errors/QueryError');
 const PermissionError = require('../../../../errors/PermissionError');
 const NotAuthorizedError = require('../../../../errors/NotAuthorizedError');
@@ -14,6 +13,7 @@ class UsuarioService{
         return encryptPassword;
     }
 
+    /**@brief Adiciona novo usuario no banco.*/
     async create(body) {
         if (body.role == userRoles.admin) {
             throw new PermissionError('Não é possível criar um usuário com cargo de administrador!');
@@ -35,6 +35,7 @@ class UsuarioService{
         }
     }
 
+    /**@brief Atualiza um usuario.*/
     async update(id,body, loggedUser){
         const user = await this.getById(id);
         if (loggedUser.role != user.Roles.admin && loggedUser.id != id){
@@ -48,41 +49,24 @@ class UsuarioService{
         }
 
         await user.update(body);
-
     }
-
 
     /**@brief Busca no banco todos os usuarios cadastrados.*/
     async obterUsuarios(){
-        return await Usuario.findAll();
-    }
-    
-    /**@brief Adiciona novo usuario no banco.*/
-    async adicionarUsuario(body){
-        await Usuario.create(body);
-    }
+        const usuarios = await Usuario.findAll();
 
-    /**@brief Atualiza nome de  um usuario.*/
-    async editarNome(nome, novoNome){
-        const usuario = await Usuario.findOne({ where: { nome: `${nome}`} });
+        if(!usuarios) throw new QueryError('Nenhum usuario disponivel');
 
-        if (!usuario){
-            throw new Error('Usuario nao encontrado.');
-        }
-
-        usuario.quantidadeDownloads = novoNome;
-        await usuario.save();
+        return usuarios;
     }
     
     /**@brief Deleta um usuario.*/
-    async deletarUsuario(id){
-        const usuario = await Usuario.findOne({ where: { id: `${id}`} });
+    async delete(id, idReqUser) {
+        if (idReqUser == id)
+            throw new PermissionError('Não é possível deletar o próprio usuário.');
 
-        if (!usuario){
-            throw new Error('Usuario nao encontrado.');
-        }
-
-        Usuario.destroy({ where: { id: `${id}` } });
+        const user = await this.getById(id);
+        await user.destroy();
     }
 }
 

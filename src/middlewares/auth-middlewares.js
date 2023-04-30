@@ -18,7 +18,7 @@ function generateJWT(user, res){
 
     res.cookie('jwt', token, {
         httpOnly: true,
-        secure: process.env.NODE_EMV !== 'development',
+        secure: process.env.NODE_ENV !== 'development',
     });
 }
 
@@ -66,8 +66,7 @@ async function loginMiddleware(req, res, next ){
         generateJWT(user, res);
 
         res.status(statusCodes.noContent).end();
-    }
-    catch (error) {
+    } catch (error) {
         next(error);
     }
 }
@@ -89,9 +88,20 @@ function notLoggedIn(req, res, next) {
     }
 }
 
+const checkRole = (roles) => {
+    return (req, res, next) => {
+        try {
+            !roles.includes(req.user.role) ? res.json('Você não possui permissão para realizar essa ação') : next();
+        } catch(error){
+            next(error);
+        }
+  
+    };
+};
+
 module.exports = {
     loginMiddleware,
     notLoggedIn,
     verifyJWT,
-    //checkRole,
+    checkRole,
 };
