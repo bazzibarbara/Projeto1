@@ -91,7 +91,7 @@ function notLoggedIn(req, res, next) {
 const checkRole = (roles) => {
     return (req, res, next) => {
         try {
-            !roles.includes(req.user.role) ? res.json('Você não possui permissão para realizar essa ação') : next();
+            !roles.includes(req.user.role) ? res.json('Sem permissão para realizar comando') : next();
         } catch(error){
             next(error);
         }

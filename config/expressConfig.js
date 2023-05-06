@@ -33,7 +33,7 @@ const usuarioRouter = require('../src/domains/Usuarios/controllers/index.js');
 app.use('/api/usuario', usuarioRouter);
 
 const usuarioMusicaRouter = require('../src/domains/UsuariosMusicas/controllers/index.js');
-app.use('/api/usuario', usuarioMusicaRouter);
+app.use('/api/usuariosMusicas', usuarioMusicaRouter);
 
 const errorHandler = require('../src/middlewares/error-handler.js');
 app.use(errorHandler);
