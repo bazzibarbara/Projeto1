@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 const router =  require('express').Router();
 const statusCodes = require('../../../../constants/statusCodes');
-const verifyJWT = require('../../../middlewares/auth-middlewares');
+const { verifyJWT } = require('../../../middlewares/auth-middlewares');
 const UsuariosMusicasService = require('../service/UsuarioMusicaService');
-const MusicaService = require('../../Musicas/services');
+const MusicaService = require('../../Musicas/services/MusicaService');
 
 router.post('/:id',
     verifyJWT,

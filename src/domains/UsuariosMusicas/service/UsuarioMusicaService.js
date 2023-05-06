@@ -7,19 +7,46 @@ const Usuario = require('../../Usuarios/models/Usuario');
 
 class UsuarioMusicaService{
     async adicionarUsuarioMusica(idUsuario, idMusica){
-        
+        const usuario = await UsuarioService.obterUsuarioPorId(idUsuario);
+        const musica = await MusicaService.obterMusicaPorId(idMusica);
+        await UsuarioMusica.create({ idUsuario: usuario.id, idMusica: musica.id });
     }
 
-    async obterMusicasPorUsuario(idUsuario){
-        
+    async obterMusicasPorUsuario(userId){
+        const musicas = await Musica.findAll({
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            include: {
+                model: Usuario,
+                where: { id: userId },
+                through: { attributes: [] },
+            }
+        });
+    
+        return musicas;
+    }
+    
+    async obterUsuariosPorMusica(songId){
+        const usuarios = await Usuario.findAll({
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            include: {
+                model: Musica,
+                where: { id: songId },
+                through: { attributes: [] },
+            },
+        });
+    
+        return usuarios;
     }
 
-    async ObterUsuariosPorMusica(idMusica){
-        
-    }
-
-    async deletarMusicaUsuario(idUsuario, idMusica){
-        
+    async deletarUsuarioMusica(idUsuario, idMusica){
+        const usuario = await UsuarioService.obterUsuarioPorId(idUsuario);
+        const musica = await MusicaService.obterMusicaPorId(idMusica);
+        await UsuarioMusica.destroy({
+            where: {
+                idUsuario: usuario.id,
+                idMusica: musica.id,
+            }
+        });
     }
 }
 

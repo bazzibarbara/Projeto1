@@ -7,7 +7,6 @@ class MusicaService{
 
     /**@brief Deleta uma musica.*/
     async deletarMusica(nome){
-        
         const musica = await Musica.findOne({ where: { titulo: nome } });
 
         if (!musica){
