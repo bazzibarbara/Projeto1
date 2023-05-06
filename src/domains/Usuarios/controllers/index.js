@@ -31,24 +31,24 @@ router.put('/:id',
 );
 
 //cria usuario(C do CRUD)
-router.post('/add', async(req,res) => {
+router.post('/add', async(req,res, next) => {
     const body = req.body;
 
     try {
         await UsuarioService.adicionarUsuario(body);
-        return res.status(201).json('Usuario criado com sucesso');
-    } catch {
-        return res.status(400);
+        return res.status(statusCodes.created).json('Usuario criado com sucesso');
+    } catch(error) {
+        next(error);
     }
 });
 
 //modulo read todos os usuarios (R DO CRUD)
-router.get('/all', async (req,res) => {
+router.get('/all', async (req,res, next) => {
     try{
         const usuarios = await UsuarioService.obterUsuarios();
-        res.status(200).send(usuarios);
-    }catch{
-        res.status(400).json('Nao foi possivel acessar a tabela de usuarios.');
+        res.status(statusCodes.success).send(usuarios);
+    }catch(error) {
+        next(error);
     }
 });
 

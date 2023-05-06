@@ -31,6 +31,16 @@ class ArtistasService{
         return artista;
     }
 
+    async obterArtistaPorId(id){
+        const artista = await Artista.findByPk(id);
+
+        if (!artista){
+            throw new QueryError('Musica nao encontrada.');
+        }
+
+        return artista;
+    }
+
     async obterMusicasPorArtista(nome){
         const artista = await Artista.findOne({ where: { nome: nome }, include: [Musica] });
 
@@ -59,6 +69,16 @@ class ArtistasService{
 
         if (!artista){
             throw new QueryError('Artista nao encontrado.');
+        }
+
+        artista.destroy();
+    }
+
+    async deletarArtistaPorId(id){
+        const artista = await Artista.findByPk(id);
+
+        if (!artista){
+            throw new QueryError('Musica nao encontrada.');
         }
 
         artista.destroy();

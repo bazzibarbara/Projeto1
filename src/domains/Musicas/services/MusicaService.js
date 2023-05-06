@@ -17,6 +17,16 @@ class MusicaService{
         musica.destroy();
     }
 
+    async deletarMusicaPorId(id){
+        const musica = await Musica.findByPk(id);
+
+        if (!musica){
+            throw new QueryError('Musica nao encontrada.');
+        }
+
+        musica.destroy();
+    }
+
     
     async obterMusicas(){
         const musica = await Musica.findAll();
@@ -34,6 +44,16 @@ class MusicaService{
             throw new QueryError('Musica nao encontrada.');
         }
             
+        return musica;
+    }
+
+    async obterMusicaPorId(id){
+        const musica = await Musica.findByPk(id);
+
+        if (!musica){
+            throw new QueryError('Musica nao encontrada.');
+        }
+
         return musica;
     }
 

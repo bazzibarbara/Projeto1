@@ -59,6 +59,16 @@ class UsuarioService{
 
         return usuarios;
     }
+
+    async obterUsuarioPorId(id){
+        const usuario = await Usuario.findByPk(id);
+
+        if (!usuario){
+            throw new QueryError('Musica nao encontrada.');
+        }
+
+        return usuario;
+    }
     
     /**@brief Deleta um usuario.*/
     async delete(id, idReqUser) {
@@ -67,6 +77,16 @@ class UsuarioService{
 
         const user = await this.getById(id);
         await user.destroy();
+    }
+
+    async deletarUsuarioPorId(id){
+        const usuario = await Usuario.findByPk(id);
+
+        if (!usuario){
+            throw new QueryError('Musica nao encontrada.');
+        }
+
+        usuario.destroy();
     }
 }
 
