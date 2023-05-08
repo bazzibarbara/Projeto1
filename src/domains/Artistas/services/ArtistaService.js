@@ -35,7 +35,7 @@ class ArtistasService{
         const artista = await Artista.findByPk(id);
 
         if (!artista){
-            throw new QueryError('Musica nao encontrada.');
+            throw new QueryError('Artista nao encontrado.');
         }
 
         return artista;
@@ -51,21 +51,14 @@ class ArtistasService{
         return artista.Musicas;
     }
 
-    async editarFoto(nome, novafoto){
-        const artista = await Artista.findOne({ where: { nome: `${nome}`} });
-
-        if (!artista){
-            throw new QueryError('Artista nao encontrado.');
-        }
-
-        artista.foto = novafoto;
-        await artista.save();
+    async editarArtista(id, body){
+        const artista = await this.obterArtistaPorId(id);
+        await artista.update(body);
     }
 
     /**@brief Deleta uma artista filtrando pelo nome. */
-    async deletarArtista(nome){
-
-        const artista = await Artista.findOne({ where: { nome: `${nome}`} });
+    async deletarArtista(id){
+        const artista = await Artista.findByPk(id);
 
         if (!artista){
             throw new QueryError('Artista nao encontrado.');
@@ -73,17 +66,6 @@ class ArtistasService{
 
         artista.destroy();
     }
-
-    async deletarArtistaPorId(id){
-        const artista = await Artista.findByPk(id);
-
-        if (!artista){
-            throw new QueryError('Musica nao encontrada.');
-        }
-
-        artista.destroy();
-    }
-    
 }
 
 module.exports = new ArtistasService();

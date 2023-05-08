@@ -72,16 +72,10 @@ class MusicaService{
         await Musica.create({ foto, titulo, categoria, idArtista });
     }
 
-    /**@brief Filtra uma musica pelo nome e altera o seu numero de downloads.*/
-    async editarFoto(nome, foto_str){
-        const musica = await Musica.findOne({ where: { titulo: nome } });
-
-        if (!musica){
-            throw new QueryError('Musica nao encontrada.');
-        }
-
-        musica.foto = foto_str;
-        await musica.save();
+    /**@brief Filtra uma musica pelo id e altera seus dados.*/
+    async editarMusica(id, body){
+        const musica = await this.obterMusicaPorId(id);
+        await musica.update(body);
     }
 
 }

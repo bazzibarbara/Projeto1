@@ -56,30 +56,26 @@ router.post('/add',
     },
 );
 
-router.put('/edit/:nome/:novafoto',
+router.put('/:id',
     verifyJWT,
     checkRole([userRoles.admin]),
     async (req, res, next) => {
-        const { nome, novafoto } = req.params;
-        
         try{
-            await ArtistaService.editarFoto(nome, novafoto);
-            res.status(statusCodes.success).send(`Foto do artista ${nome} editado com sucesso.`);
+            await ArtistaService.editarArtista(req.params.id, req.body);
+            res.status(statusCodes.success).end();
         }catch(error){
             next(error);
         }
     }
 );
 
-router.delete('/delete/:nome',
+router.delete('/delete/:id',
     verifyJWT,
     checkRole([userRoles.admin]),
     async (req, res, next) => {
-        const { nome } = req.params;
-    
         try{
-            await ArtistaService.deletarArtista(nome);
-            res.status(statusCodes.success).send('Artista deletado com sucesso');
+            await ArtistaService.deletarArtista(req.params.id);
+            res.status(statusCodes.success).end();
         }
         catch(error){
             next(error);

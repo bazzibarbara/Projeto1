@@ -60,15 +60,13 @@ router.post('/add',
 );
 
 // edita a quantidade de downloads de uma musica pelo nome
-router.put('/edit/:nome/:foto_str', 
+router.put('/:id', 
     verifyJWT,
     checkRole([userRoles.admin]),
     async (req, res, next) => {
-        const { nome, foto_str } = req.params;
-        
         try{
-            await MusicaService.editarFoto(nome, foto_str);
-            res.status(statusCodes.success).send(`A foto da musica ${nome} editado com sucesso.`);
+            await MusicaService.editarMusica(req.params.id, req.body);
+            res.status(statusCodes.success).end();
         }catch(error){
             next(error);
         }
